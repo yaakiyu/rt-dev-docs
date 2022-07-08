@@ -7,6 +7,7 @@ RTへ貢献してくれようとしてありがとうございます。
 * [rt-backend](https://github.com/RextTeam/rt-backend) : `Python`, `sanic`(pythonのライブラリ)
 
 全ての方法において、githubの基礎知識を持っていることが前提です。まぁ、issueとPull Requestを出せれば十分です。  
+わからない場合は「github issue 立て方」や「github fork 作り方」、「github PullRequest 出し方」でggってみてください。  
 rt-botとrt-frontendに関してはPythonの基礎知識が前提になります。まぁ、エラーの解決能力があれば十分です。  
 frontendやbackendに貢献したいという方は こちら(執筆中) をご覧ください。  
 ここでは主にrt-botに貢献しようとしてくれている方向けの解説をします。
