@@ -1,4 +1,4 @@
-[ホームへ戻る](/docs/README.md) [RextRTトップへ戻る](README.md)
+[ホームへ戻る](../../README.md) [RextRTトップへ戻る](README.md)
 
 # 初めに
 RTへ貢献してくれようとしてありがとうございます。  
