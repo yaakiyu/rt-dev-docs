@@ -1,9 +1,11 @@
+[ホームへ戻る](/docs/README.md) [RextRTトップへ戻る](README.md)
+
 # 新RTのDatabaseManagerについて
 *注意 - この項目ではRext式新RTのDatabaseManagerしか扱いません。それ以前のRTのDatabaseManagerの仕組みは自分で調べてください。*  
 *注意2 - この項目では主に使い方について解説します。仕組みを詳しく知りたい場合は自分で調べてください。*
 
 ## データベースの種類は?
-RTはデータベースに[aiomysql](https://github.com/aio-libs/aiomysql)の`pool`を利用しています。  
+RTはデータベースに[aiomysql](https://github.com/aio-libs/aiomysql)の`Pool`を利用しています。  
 生でデータベースを操作したい場合は`bot.pool`を利用してください。(非推奨ですが)  
 名前から分かる通り、データベースの種類は**mysql**です。ここではmysqlの解説はしませんのでご了承ください。
 
@@ -16,18 +18,27 @@ RTではデータベースの操作が簡単にできるようにDatabaseManager
 (クラス継承がわからない人は、Cogのようなものだと思ってください。)
 
 ```python
-from core import DatabaseManager
+from core import DatabaseManager, Cog
+
 
 class DataManager(DatabaseManager):
+    "〇〇機能のデータマネージャーです。"
+
     def __init__(self, cog):
         self.cog = cog
+        # (下のself.poolは必須です。これがないとbotが動作しません。)
+        self.pool = cog.bot.pool
 ```
 そして次に、これをCogの方に紐付けさせます。
+(関連項目: [Cogについて](cog.md))
 ```python
 # 略
 
 class CogName(Cog):
+    "〇〇機能のコグです。"
+
     # このCogはcore.Cogですが、commands.Cogとほぼ同じように使えます。
+
     def __init__(self, bot):
         self.data = DataManager(self)
         # 名前はdataじゃなくてもいいのですが一般的にはdataを使います。
@@ -36,7 +47,8 @@ class CogName(Cog):
 また、何かテーブルを使う場合は(使わないことはほとんどないと思いますが)テーブル初期化用のコードを書いておきましょう。  
 それを`cog_load`関数(Cogのロードが終わるとdiscord.pyに自動で呼ばれるasyncの関数です)の中でそれを実行します。
 ```python
-from core import DatabaseManager, cursor
+from core import DatabaseManager, Cog, cursor
+
 
 class DataManager(DatabaseManager):
     # 略
@@ -50,9 +62,10 @@ class DataManager(DatabaseManager):
 
 class CogName(Cog):
     # 略
+
     async def cog_load(self):
         await self.data.prepare_table()
-        # ↑この関数の名前も習慣的にprepare_tableが望ましいです。
+        # ↑関数の名前も習慣的にprepare_tableが望ましいです。
 ```
 ここで一つ気づいたことがありませんか?  
 そうです。`cursor`をimportして使っています。  
@@ -63,6 +76,7 @@ class CogName(Cog):
 cursor引数は自動で渡されるので、cogからDatabaseManagerにアクセスするときのコードには何も書く必要がありません。
 ```python
 from rtlib.common.json import dumps
+# jsonモジュールに関してもrtlibのものを使用する必要があります。
 
 # 略
 
@@ -71,7 +85,10 @@ class DataManager(...):
     async def add_data(self, guild_id: int, data: dict) -> None:
         "データを追加します。"
         # DatabaseManagerのそれぞれの関数に説明やアノテーションはつけておきましょう。
-        await cursor.execute("INSERT INTO TableName VALUES (%s, %s)", (guild_id, dumps(data)))
+        await cursor.execute(
+            "INSERT INTO TableName VALUES (%s, %s);",
+            (guild_id, dumps(data))
+        )
 
 # 略
 
