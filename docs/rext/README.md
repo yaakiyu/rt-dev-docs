@@ -1,4 +1,4 @@
-[ホームへ戻る](/docs/README.md)
+[ホームへ戻る](../README.md)
 
 # Rext-RT developer docs
 
