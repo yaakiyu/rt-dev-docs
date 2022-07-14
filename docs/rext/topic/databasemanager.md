@@ -1,4 +1,4 @@
-[ホームへ戻る](../../../README.md) [RextRTトップへ戻る](../README.md)
+[ホームへ戻る](../../README.md) [RextRTトップへ戻る](../README.md)
 
 # 新RTのDatabaseManagerについて
 *注意 - この項目ではRext式新RTのDatabaseManagerしか扱いません。それ以前のRTのDatabaseManagerの仕組みは自分で調べてください。*  
