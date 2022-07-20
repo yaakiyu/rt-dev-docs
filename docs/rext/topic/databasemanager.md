@@ -1,12 +1,14 @@
 [ホームへ戻る](../../README.md) [RextRTトップへ戻る](../README.md)
 
 # 新RTのDatabaseManagerについて
-*注意 - この項目ではRext式新RTのDatabaseManagerしか扱いません。それ以前のRTのDatabaseManagerの仕組みは自分で調べてください。*  
+*注意 - この項目ではRext式新RTのDatabaseManagerしか扱いません。それ以前のRTのDatabaseManagerの仕組みは自分で調べてください。*
+
 *注意2 - この項目では主に使い方について解説します。仕組みを詳しく知りたい場合は自分で調べてください。*
 
 ## データベースの種類は?
 RTはデータベースに[aiomysql](https://github.com/aio-libs/aiomysql)の`Pool`を利用しています。  
 生でデータベースを操作したい場合は`bot.pool`を利用してください。(非推奨ですが)  
+
 名前から分かる通り、データベースの種類は**mysql**です。ここではmysqlの解説はしませんのでご了承ください。
 
 ## DatabaseManagerとは?
@@ -68,11 +70,15 @@ class CogName(Cog):
         # ↑関数の名前も習慣的にprepare_tableが望ましいです。
 ```
 ここで一つ気づいたことがありませんか?  
+
 そうです。`cursor`をimportして使っています。  
 このDatabaseManagerは自動でcursor引数を関数に増設して使っているようです。  
+
 しかし、実際のコードにはcursor引数なんてないから見かけ上はエラーが出てしまいます。  
+
 そこで、cursorをimportしてそれを使っているように見せかけているのです。  
 ちなみにDataManagerの外でcursorを使うことはできません。(実際の中身はNoneなので)  
+
 cursor引数は自動で渡されるので、cogからDatabaseManagerにアクセスするときのコードには何も書く必要がありません。
 ```python
 from rtlib.common.json import dumps
