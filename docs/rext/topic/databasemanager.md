@@ -26,7 +26,7 @@ from core import DatabaseManager, Cog
 class DataManager(DatabaseManager):
     "〇〇機能のデータマネージャーです。"
 
-    def __init__(self, cog):
+    def __init__(self, cog) -> None:
         self.cog = cog
         # (下のself.poolは必須です。これがないとbotが動作しません。)
         self.pool = cog.bot.pool
@@ -41,7 +41,7 @@ class CogName(Cog):
 
     # このCogはcore.Cogですが、commands.Cogとほぼ同じように使えます。
 
-    def __init__(self, bot):
+    def __init__(self, bot) -> None:
         self.data = DataManager(self)
         # 名前はdataじゃなくてもいいのですが一般的にはdataを使います。
         # cogを引数に取るのでselfを渡してあげましょう。
@@ -55,7 +55,7 @@ from core import DatabaseManager, Cog, cursor
 class DataManager(DatabaseManager):
     # 略
 
-    async def prepare_table(self):
+    async def prepare_table(self) -> None:
         "テーブルを準備します。"
         await cursor.execute("CREATE TABLE IF NOT EXISTS TableName(GuildId BIGINT, Data JSON)")
         # テーブル名やカラム名はそれぞれパスカルケース(単語ごとに大文字始まり)で書いてください。
@@ -65,7 +65,7 @@ class DataManager(DatabaseManager):
 class CogName(Cog):
     # 略
 
-    async def cog_load(self):
+    async def cog_load(self) -> None:
         await self.data.prepare_table()
         # ↑関数の名前も習慣的にprepare_tableが望ましいです。
 ```
@@ -107,3 +107,33 @@ class CogName(Cog):
         await ctx.reply("Ok")
 ```
 基本的な使い方は以上です。
+
+## 応用編
+いくつかの覚えておきたい応用的な書き方が存在します。
+
+### cursorの無駄遣いを減らす
+cursorは関数が一回実行されるたびに生成されます。
+
+ということは、DatabaseManagerにある関数の中で別の関数を呼び出すと、cursorが2個生成されることになります。  
+同じcursorを使って処理をするために、キーワード引数を使うことができます。
+```python
+# 略
+
+class DataManager(DatabaseManager):
+    # 略
+
+    async def check_data(self, user_id: int) -> bool:
+        "データのモードがAAAかどうかを調べます。"
+        if await self.data_exists(user_id):
+            await cursor.execute("SELECT Mode FROM TableName WHERE UserId = %s;", (user_id,))
+            return (await cursor.fetchone())[0][0] == "AAA"
+        return False
+
+    async def data_exists(self, user_id: int, **_) -> bool:
+        "この機能がオンになっているかを調べます。"
+        await cursor.execute("SELECT OnOff FRON TableName WHERE UserId = %s;", (user_id,))
+        return bool((await cursor.fetchone())[0][0])
+
+```
+上のコード例の`data_exists`関数のキーワード引数、`**_`がそれにあたります。  
+実際にキーワード引数を利用するわけではないので引数名は`_`になっています。
