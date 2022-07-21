@@ -131,7 +131,7 @@ class DataManager(DatabaseManager):
 
     async def data_exists(self, user_id: int, **_) -> bool:
         "この機能がオンになっているかを調べます。"
-        await cursor.execute("SELECT OnOff FRON TableName WHERE UserId = %s;", (user_id,))
+        await cursor.execute("SELECT OnOff FROM TableName WHERE UserId = %s;", (user_id,))
         return bool((await cursor.fetchone())[0][0])
 
 ```
