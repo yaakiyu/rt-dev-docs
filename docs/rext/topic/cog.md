@@ -19,6 +19,9 @@ class CogName(Cog):
 
     def __init__(self, bot: RT) -> None:
         self.bot = bot
+
+async def setup(bot: RT) -> None:
+    await bot.add_cog(CogName(bot))
 ```
 こんな感じで、Rext式でも基本的には通常のコグと変わりはありません。
 
@@ -35,7 +38,7 @@ Rext式Cogを使うことでいくつかの便利な追加機能を使うこと�
 # ②Cog.Embed
 ### titleが位置引数になったEmbedです。また、カラーがデフォルトで適用されるようになります。
 ### 使用例↓
-    @commands.command()
+    @commands.command(...)
     async def command_name(self, ctx: commands.Context, *, arg: str):
         await nanraka_no_syori(ctx, arg)
         await ctx.reply(embed=Cog.Embed("Ok", description="Ok."))
