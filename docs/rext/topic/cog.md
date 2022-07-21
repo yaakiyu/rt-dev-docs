@@ -12,12 +12,12 @@
 まず初めに、Rext式のCogは特定の場所からimportする必要があります。  
 一部の機能が使えなくなるだけでなく、基本的な動作にも支障が出る可能性があります。  
 ```python
-from core import Cog
+from core import Cog, RT
 
 class CogName(Cog):
     "〇〇機能のコグです。"
 
-    def __init__(self, bot) -> None:
+    def __init__(self, bot: RT) -> None:
         self.bot = bot
 ```
 こんな感じで、Rext式でも基本的には通常のコグと変わりはありません。
@@ -29,14 +29,14 @@ Rext式Cogを使うことでいくつかの便利な追加機能を使うこと�
 ### これはグループコマンドの親コマンドに置き、サブコマンドなしの時に「使用法が違います」と表示してくれるものです。
 ### 使用例↓
     @commands.group(...)
-    async def command_name(self, ctx):
+    async def command_name(self, ctx: commands.Context):
         await self.group_index(ctx)
 
 # ②Cog.Embed
 ### titleが位置引数になったEmbedです。また、カラーがデフォルトで適用されるようになります。
 ### 使用例↓
     @commands.command()
-    async def command_name(self, ctx, *, arg):
+    async def command_name(self, ctx: commands.Context, *, arg: str):
         await nanraka_no_syori(ctx, arg)
         await ctx.reply(embed=Cog.Embed("Ok", description="Ok."))
 ```
