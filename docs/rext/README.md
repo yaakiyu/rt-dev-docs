@@ -18,5 +18,5 @@ RTへ貢献しようとしてくれてありがとうございます。
 - [データベースを使いたい！](topic/databasemanager.md)
 - [RTには専用の特別なCogがあるの?](topic/cog.md)
 - [多言語対応してみたい！](topic/globalization.md)
-- ヘルプにコマンドを追加するには?(HelpCommand)
+- [ヘルプにコマンドを追加するには?](topic/helpcommand.md)
 - RTイベントって何?どう使うの?(RTEvent)
