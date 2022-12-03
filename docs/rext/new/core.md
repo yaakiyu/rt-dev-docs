@@ -2,7 +2,7 @@
 rt-botリポジトリのcoreフォルダにある関数などなどについて解説する。
 
 # \_\_init\_\_.py
-## class Core(commands.Bot)
+### class Core(commands.Bot)
 新RTのコア。今まで`core/bot.py`にあった`Bot`だったもの。  
 これからは型付けするときはこれを使うことになるのかな?  
 なお詳細はまだ解析中
@@ -11,7 +11,7 @@ rt-botリポジトリのcoreフォルダにある関数などなどについて�
 最初と最後にある`auto_all.start_all()`、`auto_all.end_all()`は[auto-all](https://pypi.org/project/auto-all/)っていう外部ライブラリのものっぽい。  
 startとendで囲まれた部分のソースコードにあるグローバルスコープのオブジェクトを全て自動で`__all__`に登録するやつらしい。
 
-## PREFIXES
+### PREFIXES
 コンフィグファイルの中に珍しいmatch構文を発見。  
 ...いまだにgithubでさえハイライト対応してないのか。
 ```python
@@ -45,7 +45,7 @@ match bot_id:
 上のは`update_prefixes`の関数の中の処理。botのidにマッチして分岐してる。  
 なお、`case _`はワイルドカード(つまり「その他」)。
 
-## CONFIG
+### CONFIG
 `core.config.CONFIG`はデフォルトでは`config.toml`から読み込まれる。(envでpathを変更できるっぽいけど)  
 ここにいろんな情報が入る。`config.template.toml`ファイルから作らないといけないらしい。
 
@@ -82,7 +82,7 @@ main = { url = "http://127.0.0:50021" } ## VoiceVoxサーバーのurl
 ## を追加すればヨシ。
 ## また、この{}の中に authorization = "" を含められる。リクエスト時の`Authorization`ヘッダーに入れる内容らしい。(よくわからん)
 ```
-## CONFIGから読み込む定数
+### CONFIGから読み込む定数
 ちょっと改変してるけどソースコードそのままの方がわかりやすい時もある
 ```py
 BACKEND_ORIGIN = CONFIG["backend_origin"]
