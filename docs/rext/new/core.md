@@ -74,8 +74,8 @@ maxsize = 10
 open_jtalk = "open_jtalk" ## OpenJTarkを使用する際のコマンド。Pathが通っていなければOpenJTalk実行部のフルPathを記述すれば良き、かな
 
 [feature.tts.voicevoxes]
-main = { url = "http://127.0.0:50021" } ## VoiceBoxサーバーのurl
-## サブVoiceBoxを入れたいときは、
+main = { url = "http://127.0.0:50021" } ## VoiceVoxサーバーのurl
+## サブVoiceVoxを入れたいときは、
 ## sub = { url = "" }
 ## を追加すればヨシ。
 ```
