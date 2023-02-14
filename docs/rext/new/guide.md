@@ -34,3 +34,5 @@ async def setup(bot: Core) -> None:
 * (`core.Core`はBotのオーバーライドクラスです。)
 * classの直下に説明用のdocstringをつける。
 * 関数の返り値の`None`の型付けをする。
+
+この作業が終わった時点でcommitしてPRを出してもいいですが、commitする際には`contributing.md`を読みながらその規則に従ったコミットメッセージにするようにしましょう。
